@@ -1,0 +1,151 @@
+/* 911 Porscha font family variations */
+
+@font-face {
+  font-family: '911porschav3';
+  src: url('./911porscha/911porschav3.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '911porschav3';
+  src: url('./911porscha/911porschav3bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '911porschav3';
+  src: url('./911porscha/911porschav3ital.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '911porschav3';
+  src: url('./911porscha/911porschav3boldital.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '911porschav3-cond';
+  src: url('./911porscha/911porschav3cond.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '911porschav3-cond';
+  src: url('./911porscha/911porschav3condital.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '911porschav3-expand';
+  src: url('./911porscha/911porschav3expand.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '911porschav3-expand';
+  src: url('./911porscha/911porschav3expandital.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '911porschav3-laser';
+  src: url('./911porscha/911porschav3laser.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '911porschav3-laser';
+  src: url('./911porscha/911porschav3laserital.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '911porschav3-left';
+  src: url('./911porscha/911porschav3left.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '911porschav3-semital';
+  src: url('./911porscha/911porschav3semital.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '911porschav3-title';
+  src: url('./911porscha/911porschav3title.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '911porschav3-title';
+  src: url('./911porscha/911porschav3titleital.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '911porschav3-3d';
+  src: url('./911porscha/911porschav33d.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '911porschav3-3d';
+  src: url('./911porscha/911porschav33dital.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'paradose';
+  src: url('./paradose.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'bind';
+  src: url('./Bind.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Misa';
+  src: url('./13_Misa.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

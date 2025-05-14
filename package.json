@@ -15,6 +15,7 @@
     "clsx": "^2.1.1",
     "motion": "^12.10.5",
     "motion-v": "^1.1.0-alpha.1",
+    "pixi.js": "^8.9.2",
     "primeicons": "^7.0.0",
     "primevue": "^4.3.4",
     "tailwind-merge": "^3.2.0",

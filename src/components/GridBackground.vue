@@ -121,7 +121,7 @@ onBeforeUnmount(() => {
   width: v-bind('GRID_SIZE + "px"');
   height: v-bind('GRID_SIZE + "px"');
   background-color: rgba(255, 255, 255, 0.053);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.347);
   pointer-events: none;
   transition: opacity 0.2s ease-out;
 }
@@ -135,12 +135,12 @@ onBeforeUnmount(() => {
     linear-gradient(to right, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
   -webkit-mask-image: radial-gradient(
-    circle 120px at var(--mouse-x) var(--mouse-y),
+    circle 180px at var(--mouse-x) var(--mouse-y),
     white 0%,
     transparent 70%
   );
   mask-image: radial-gradient(
-    circle 120px at var(--mouse-x) var(--mouse-y),
+    circle 180px at var(--mouse-x) var(--mouse-y),
     white 0%,
     transparent 70%
   );

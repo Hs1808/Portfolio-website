@@ -23,9 +23,22 @@
           data Engineer
         </div>
         <div class="left-intro-sub">Code × Cognition × Future Systems</div>
+
         <blockquote class="left-intro-quote">
-          "Designing intelligent full-stack systems with AI & <br />
-          dynamic data to turn bold ideas into working realities."
+          <TerminalCard
+            title="mission-statement — txt"
+            :lines="[
+              { text: '▍', type: 'output', keyword: 'Mission' },
+              {
+                text: 'Designing intelligent full-stack systems with AI &  dynamic data to turn bold ideas into working realities.',
+                type: 'output',
+              },
+            ]"
+            width="380px"
+            height="200px"
+            :glassOpacity="-0.5"
+            :blurStrength="0"
+          />
         </blockquote>
       </div>
 
@@ -40,6 +53,9 @@
           @load="handleImageLoad"
         />
       </div>
+      <div class="dot-animation">
+        <DotAnimation text="Learn More . Click Here . " radius="60" font-size="12" />
+      </div>
     </div>
   </div>
 </template>
@@ -49,6 +65,8 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import GridBackground from '@/components/GridBackground.vue'
 import Image from 'primevue/image'
 import TypewriterEffect from '@/components/TypewriterEffect.vue'
+import DotAnimation from '@/components/DotAnimation.vue'
+import TerminalCard from '@/components/TerminalCard.vue'
 
 const isDarkMode = ref(false)
 const showGrid = ref(true)
@@ -132,6 +150,20 @@ onUnmounted(() => {
   justify-content: center;
   align-items: flex-end;
   z-index: 2;
+  pointer-events: none;
+}
+.dot-animation {
+  position: absolute;
+  right: -5%;
+  top: 82%;
+  transform: translateY(-50%) scale(0.9);
+  transform-origin: center bottom;
+  width: min(37.8%, 378px);
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 1;
   pointer-events: none;
 }
 
@@ -224,7 +256,7 @@ onUnmounted(() => {
 
 .left-intro {
   position: absolute;
-  top: 42%;
+  top: 50%;
   left: 2.5%;
   transform: translateY(-50%);
   max-width: 550px;
@@ -252,19 +284,12 @@ onUnmounted(() => {
 }
 
 .left-intro-quote {
-  font-family: '911porschav3-semital', sans-serif;
-  max-width: 600px;
-  font-size: clamp(1rem, 3vw, 1rem);
   color: var(--text-color);
   margin: 0;
-  padding-top: 30px;
-  padding-left: 1rem;
-  border-left: 4px solid var(--primary-color);
+  padding-top: 10px;
+  padding-left: 0.5rem;
   line-height: 1.1;
   display: inline-block;
-  transform: scaleY(1.5);
-  font-weight: 400;
-  word-spacing: 0.2rem;
 }
 
 @media (max-width: 768px) {

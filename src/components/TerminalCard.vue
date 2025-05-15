@@ -2,8 +2,8 @@
   <div class="terminal-container" :style="containerStyle">
     <div class="terminal-glass" :style="glassStyle">
       <!-- Terminal Header -->
-      <div class="terminal-header">
-        <div class="terminal-buttons">
+      <div class="terminal-header" :class="{ 'no-buttons': !showButtons }">
+        <div class="terminal-buttons" v-if="showButtons">
           <div class="terminal-btn close"></div>
           <div class="terminal-btn minimize"></div>
           <div class="terminal-btn maximize"></div>
@@ -63,6 +63,10 @@ const props = defineProps({
   title: {
     type: String,
     default: 'bash — zsh',
+  },
+  showButtons: {
+    type: Boolean,
+    default: true,
   },
   lines: {
     type: Array,
@@ -135,6 +139,10 @@ const glassStyle = computed(() => ({
 }
 
 /* Header Styles */
+.terminal-header.no-buttons .terminal-title {
+  margin-left: 0;
+  padding-left: 16px; /* Adjust as needed */
+}
 .terminal-header {
   display: flex;
   align-items: center;

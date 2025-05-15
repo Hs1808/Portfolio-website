@@ -24,8 +24,9 @@
         </div>
         <div class="left-intro-sub">Code × Cognition × Future Systems</div>
 
-        <blockquote class="left-intro-quote">
+        <div class="left-intro-quote">
           <TerminalCard
+            class="terminal-card"
             title="mission-statement — txt"
             :lines="[
               { text: '▍', type: 'output', keyword: 'Mission' },
@@ -38,11 +39,10 @@
             height="200px"
             :glassOpacity="-0.5"
             :blurStrength="0"
+            :showButtons="false"
           />
-        </blockquote>
+        </div>
       </div>
-
-      <h2 class="dev-text">Developer</h2>
 
       <!-- Profile image with intersection detection -->
       <div class="image-wrapper" ref="imageWrapper">
@@ -237,23 +237,6 @@ onUnmounted(() => {
   }
 }
 
-.dev-text {
-  position: absolute;
-  right: 5%;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: clamp(2rem, 6vw, 4rem);
-  font-weight: 700;
-  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  z-index: 3;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  pointer-events: none;
-}
-
 .left-intro {
   position: absolute;
   top: 50%;
@@ -291,7 +274,9 @@ onUnmounted(() => {
   line-height: 1.1;
   display: inline-block;
 }
-
+.terminal-card .terminal-title {
+  margin-left: 0;
+}
 @media (max-width: 768px) {
   .hello-text {
     top: 52%;

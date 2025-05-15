@@ -23,25 +23,24 @@
           data Engineer
         </div>
         <div class="left-intro-sub">Code × Cognition × Future Systems</div>
-
-        <div class="left-intro-quote">
-          <TerminalCard
-            class="terminal-card"
-            title="mission-statement — txt"
-            :lines="[
-              { text: '▍', type: 'output', keyword: 'Mission' },
-              {
-                text: 'Designing intelligent full-stack systems with AI &  dynamic data to turn bold ideas into working realities.',
-                type: 'output',
-              },
-            ]"
-            width="380px"
-            height="200px"
-            :glassOpacity="-0.5"
-            :blurStrength="0"
-            :showButtons="false"
-          />
-        </div>
+      </div>
+      <div class="terminal-container">
+        <TerminalCard
+          class="terminal-card"
+          title="mission-statement — txt"
+          :lines="[
+            { text: '▍', type: 'output', keyword: 'Mission' },
+            {
+              text: 'Designing intelligent full-stack systems with AI &  dynamic data to turn bold ideas into working realities.',
+              type: 'output',
+            },
+          ]"
+          width="380px"
+          height="200px"
+          :glassOpacity="-0.5"
+          :blurStrength="0"
+          :showButtons="false"
+        />
       </div>
 
       <!-- Profile image with intersection detection -->
@@ -239,11 +238,11 @@ onUnmounted(() => {
 
 .left-intro {
   position: absolute;
-  top: 50%;
+  top: 19%;
   left: 2.5%;
   transform: translateY(-50%);
   max-width: 550px;
-  z-index: 3;
+  z-index: 1;
   pointer-events: none;
   line-height: 1.2;
   text-shadow:
@@ -263,20 +262,21 @@ onUnmounted(() => {
 .left-intro-sub {
   font-size: clamp(1rem, 3vw, 1.2rem);
   color: var(--text-color);
-  margin: 0 0 20rem 0;
+  margin: 0 0 0 0;
 }
 
 .left-intro-quote {
-  color: var(--text-color);
-  margin: 0;
-  padding-top: 10px;
-  padding-left: 0.5rem;
-  line-height: 1.1;
-  display: inline-block;
+  pointer-events: all;
 }
-.terminal-card .terminal-title {
-  margin-left: 0;
+.terminal-container {
+  z-index: 1;
+  position: fixed;
+  transform: translateY(-50%);
+  bottom: 30%;
+  left: 19%;
+  pointer-events: all;
 }
+
 @media (max-width: 768px) {
   .hello-text {
     top: 52%;

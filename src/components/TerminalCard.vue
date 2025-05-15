@@ -1,5 +1,10 @@
 <template>
-  <div class="terminal-container" :style="containerStyle">
+  <div
+    class="terminal-container"
+    :style="containerStyle"
+    ref="terminalContainer"
+    @mousedown="startDrag"
+  >
     <div class="terminal-glass" :style="glassStyle">
       <!-- Terminal Header -->
       <div class="terminal-header" :class="{ 'no-buttons': !showButtons }">
@@ -41,7 +46,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps({
   width: {
@@ -65,6 +70,10 @@ const props = defineProps({
     default: 'bash — zsh',
   },
   showButtons: {
+    type: Boolean,
+    default: true,
+  },
+  draggable: {
     type: Boolean,
     default: true,
   },
@@ -103,15 +112,71 @@ const props = defineProps({
   },
 })
 
+const terminalContainer = ref(null)
+const isDragging = ref(false)
+const startX = ref(0)
+const startY = ref(0)
+const startLeft = ref(0)
+const startTop = ref(0)
+
+const startDrag = (e) => {
+  if (!props.draggable || e.target.closest('.terminal-content')) return
+
+  isDragging.value = true
+  startX.value = e.clientX
+  startY.value = e.clientY
+
+  const rect = terminalContainer.value.getBoundingClientRect()
+  startLeft.value = rect.left
+  startTop.value = rect.top
+
+  document.addEventListener('mousemove', handleDrag)
+  document.addEventListener('mouseup', stopDrag)
+  terminalContainer.value.style.cursor = 'grabbing'
+}
+
+const handleDrag = (e) => {
+  if (!isDragging.value) return
+
+  const dx = e.clientX - startX.value
+  const dy = e.clientY - startY.value
+
+  terminalContainer.value.style.left = `${startLeft.value + dx}px`
+  terminalContainer.value.style.top = `${startTop.value + dy}px`
+}
+
+const stopDrag = () => {
+  isDragging.value = false
+  document.removeEventListener('mousemove', handleDrag)
+  document.removeEventListener('mouseup', stopDrag)
+  terminalContainer.value.style.cursor = props.draggable ? 'grab' : 'default'
+}
+
 const containerStyle = computed(() => ({
   width: props.width,
   height: props.height,
+  ...(props.draggable
+    ? {
+        position: 'fixed',
+        cursor: 'grab',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 1000,
+        userSelect: 'none',
+      }
+    : {}),
 }))
 
 const glassStyle = computed(() => ({
   '--blur-strength': `${props.blurStrength}px`,
   '--glass-opacity': props.glassOpacity,
 }))
+
+onUnmounted(() => {
+  document.removeEventListener('mousemove', handleDrag)
+  document.removeEventListener('mouseup', stopDrag)
+})
 </script>
 
 <style scoped>
@@ -141,14 +206,16 @@ const glassStyle = computed(() => ({
 /* Header Styles */
 .terminal-header.no-buttons .terminal-title {
   margin-left: 0;
-  padding-left: 16px; /* Adjust as needed */
+  padding-left: 16px;
 }
+
 .terminal-header {
   display: flex;
   align-items: center;
   padding: 12px 16px;
   background: rgba(15, 20, 30, 0.4);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: move;
 }
 
 .terminal-buttons {
@@ -192,6 +259,7 @@ const glassStyle = computed(() => ({
   font-size: 15px;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.8);
+  cursor: text;
 }
 
 .terminal-line {
@@ -284,6 +352,7 @@ const glassStyle = computed(() => ({
 </style>
 
 <style>
-/* Global font imports (add to your main CSS file) */
+/* Global font imports */
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500&display=swap');
 </style>

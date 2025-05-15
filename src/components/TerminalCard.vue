@@ -77,6 +77,14 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  initialX: {
+    type: [String, Number],
+    default: '50vw',
+  },
+  initialY: {
+    type: [String, Number],
+    default: '50vh',
+  },
   lines: {
     type: Array,
     default: () => [
@@ -114,21 +122,23 @@ const props = defineProps({
 
 const terminalContainer = ref(null)
 const isDragging = ref(false)
-const startX = ref(0)
-const startY = ref(0)
-const startLeft = ref(0)
-const startTop = ref(0)
+const startPos = ref({ x: 0, y: 0 })
+const currentPos = ref({
+  x: typeof props.initialX === 'number' ? `${props.initialX}px` : props.initialX,
+  y: typeof props.initialY === 'number' ? `${props.initialY}px` : props.initialY,
+})
 
 const startDrag = (e) => {
   if (!props.draggable || e.target.closest('.terminal-content')) return
 
   isDragging.value = true
-  startX.value = e.clientX
-  startY.value = e.clientY
 
+  // Get the actual pixel position of the terminal
   const rect = terminalContainer.value.getBoundingClientRect()
-  startLeft.value = rect.left
-  startTop.value = rect.top
+  startPos.value = {
+    x: e.clientX - rect.left,
+    y: e.clientY - rect.top,
+  }
 
   document.addEventListener('mousemove', handleDrag)
   document.addEventListener('mouseup', stopDrag)
@@ -138,11 +148,13 @@ const startDrag = (e) => {
 const handleDrag = (e) => {
   if (!isDragging.value) return
 
-  const dx = e.clientX - startX.value
-  const dy = e.clientY - startY.value
+  currentPos.value = {
+    x: `${e.clientX - startPos.value.x}px`,
+    y: `${e.clientY - startPos.value.y}px`,
+  }
 
-  terminalContainer.value.style.left = `${startLeft.value + dx}px`
-  terminalContainer.value.style.top = `${startTop.value + dy}px`
+  terminalContainer.value.style.left = currentPos.value.x
+  terminalContainer.value.style.top = currentPos.value.y
 }
 
 const stopDrag = () => {
@@ -155,23 +167,27 @@ const stopDrag = () => {
 const containerStyle = computed(() => ({
   width: props.width,
   height: props.height,
-  ...(props.draggable
-    ? {
-        position: 'fixed',
-        cursor: 'grab',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: 1000,
-        userSelect: 'none',
-      }
-    : {}),
+  position: 'fixed',
+  left: currentPos.value.x,
+  top: currentPos.value.y,
+  cursor: props.draggable ? 'grab' : 'default',
+  zIndex: 1000,
+  userSelect: 'none',
+  transform: 'none', // Remove transform to prevent teleporting
 }))
 
 const glassStyle = computed(() => ({
   '--blur-strength': `${props.blurStrength}px`,
   '--glass-opacity': props.glassOpacity,
 }))
+
+onMounted(() => {
+  // Initialize position
+  if (terminalContainer.value) {
+    terminalContainer.value.style.left = currentPos.value.x
+    terminalContainer.value.style.top = currentPos.value.y
+  }
+})
 
 onUnmounted(() => {
   document.removeEventListener('mousemove', handleDrag)
@@ -182,8 +198,8 @@ onUnmounted(() => {
 <style scoped>
 /* Base Styles */
 .terminal-container {
-  position: relative;
-  margin: 0 auto;
+  position: fixed;
+  margin: 0;
   perspective: 1000px;
 }
 

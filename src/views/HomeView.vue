@@ -40,6 +40,8 @@
           :glassOpacity="-0.5"
           :blurStrength="0"
           :showButtons="false"
+          :initialX="'10%'"
+          :initialY="'60%'"
         />
       </div>
 
@@ -270,10 +272,7 @@ onUnmounted(() => {
 }
 .terminal-container {
   z-index: 1;
-  position: fixed;
-  transform: translateY(-50%);
-  bottom: 30%;
-  left: 19%;
+  transform: none !important;
   pointer-events: all;
 }
 

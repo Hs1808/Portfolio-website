@@ -31,7 +31,7 @@
           :lines="[
             { text: '▍', type: 'output', keyword: 'Mission' },
             {
-              text: 'Designing intelligent full-stack systems with AI &  dynamic data to turn bold ideas into working realities.',
+              text: '“I design intelligent, AI-powered full-stack systems that transform bold business ideas into real-world products — fast.”',
               type: 'output',
             },
           ]"
@@ -40,8 +40,8 @@
           :glassOpacity="-0.5"
           :blurStrength="0"
           :showButtons="false"
-          :initialX="'10%'"
-          :initialY="'60%'"
+          :initialX="'8%'"
+          :initialY="'50%'"
         />
       </div>
 
@@ -54,6 +54,51 @@
           @load="handleImageLoad"
         />
       </div>
+
+      <div class="terminal-container">
+        <TerminalCard
+          class="terminal-card"
+          title="achievements — txt"
+          :lines="[
+            { text: '▍', type: 'output', keyword: 'Achievements' },
+            {
+              prompt: '>>>',
+              links: [
+                {
+                  text: 'DevProfile',
+                  url: 'https://DevProfile.com',
+                },
+              ],
+              type: 'command',
+              text: 'Founder of DevProfile',
+            },
+            {
+              prompt: '>>>',
+              text: '🛠️ 20+ Projects Delivered',
+              type: 'command',
+            },
+            {
+              prompt: '>>>',
+              text: '🌍 5 Countries Worked In',
+              type: 'command',
+            },
+            {
+              prompt: '>>>',
+              text: '⚡Fast MVP Turnaround: < 2 weeks',
+              type: 'command',
+            },
+          ]"
+          width="400px"
+          height="230px"
+          :glassOpacity="-1.5"
+          :blurStrength="0"
+          :showButtons="true"
+          :initialX="'71%'"
+          :initialY="'27%'"
+          animate="true"
+        />
+      </div>
+
       <div class="dot-animation">
         <DotAnimation text="Learn More . Click Here . " radius="60" font-size="12" />
       </div>
@@ -68,8 +113,9 @@ import Image from 'primevue/image'
 import TypewriterEffect from '@/components/TypewriterEffect.vue'
 import DotAnimation from '@/components/DotAnimation.vue'
 import TerminalCard from '@/components/TerminalCard.vue'
+import { motion } from 'motion-v'
 
-const isDarkMode = ref(false)
+const isDarkMode = true
 const showGrid = ref(true)
 const profileImage = ref(new URL('@/assets/homeImage.png', import.meta.url).href)
 const needsContrast = ref(false)
@@ -135,6 +181,7 @@ onUnmounted(() => {
   width: 100%;
   height: 100vh;
   display: flex;
+  flex: 1;
   justify-content: center;
   align-items: center;
 }
@@ -151,20 +198,6 @@ onUnmounted(() => {
   justify-content: center;
   align-items: flex-end;
   z-index: 2;
-  pointer-events: none;
-}
-.dot-animation {
-  position: absolute;
-  right: -5%;
-  top: 82%;
-  transform: translateY(-50%) scale(0.9);
-  transform-origin: center bottom;
-  width: min(37.8%, 378px);
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  z-index: 1;
   pointer-events: none;
 }
 
@@ -227,7 +260,36 @@ onUnmounted(() => {
   color: inherit;
   text-shadow: inherit;
 }
+/* Right panel */
+.dot-animation {
+  position: absolute;
+  right: -5%;
+  top: 82%;
+  transform: translateY(-50%) scale(0.9);
+  transform-origin: center bottom;
+  width: min(37.8%, 378px);
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 1;
+  pointer-events: none;
+}
 
+.RightPanel {
+  position: absolute;
+  right: 5%;
+  top: 35%;
+  transform: translateY(-50%) scale(0.9);
+  transform-origin: center bottom;
+  width: min(37.8%, 378px);
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 1;
+  pointer-events: inherit;
+}
 @keyframes blink {
   from,
   to {

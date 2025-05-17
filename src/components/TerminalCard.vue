@@ -16,37 +16,40 @@
         <div class="terminal-title">{{ title }}</div>
       </div>
 
-      <!-- Terminal Content -->
-      <div class="terminal-content">
-        <div
-          v-for="(line, index) in lines"
-          :key="index"
-          class="terminal-line"
-          :class="{ output: line.type === 'output' }"
-        >
-          <span v-if="line.prompt" class="prompt">{{ line.prompt }}</span>
-          <span v-if="line.command" class="command">{{ line.command }}</span>
-          <template v-if="line.text">
-            <span v-if="line.keyword" class="keyword">{{ line.keyword }}</span>
-            <span v-if="line.package" class="package">{{ line.package }}</span>
-            <span v-if="line.highlight" class="highlight">{{ line.highlight }}</span>
-            <span v-if="line.success" class="success">{{ line.success }}</span>
-            <span v-else>{{ line.text }}</span>
-          </template>
-          <span v-if="line.glow" class="glow">
-            <span v-if="line.keyword" class="keyword">{{ line.keyword }}</span>
-            <span v-if="line.success" class="success">{{ line.success }}</span>
-            <span v-if="line.highlight" class="highlight">{{ line.highlight }}</span>
-          </span>
+      <ScrollPanel class="scrollPanel">
+        <!-- Terminal Content -->
+        <div class="terminal-content">
+          <div
+            v-for="(line, index) in lines"
+            :key="index"
+            class="terminal-line"
+            :class="{ output: line.type === 'output' }"
+          >
+            <span v-if="line.prompt" class="prompt">{{ line.prompt }}</span>
+            <span v-if="line.command" class="command">{{ line.command }}</span>
+            <template v-if="line.text">
+              <span v-if="line.keyword" class="keyword">{{ line.keyword }}</span>
+              <span v-if="line.package" class="package">{{ line.package }}</span>
+              <span v-if="line.highlight" class="highlight">{{ line.highlight }}</span>
+              <span v-if="line.success" class="success">{{ line.success }}</span>
+              <span v-else>{{ line.text }}</span>
+            </template>
+            <span v-if="line.glow" class="glow">
+              <span v-if="line.keyword" class="keyword">{{ line.keyword }}</span>
+              <span v-if="line.success" class="success">{{ line.success }}</span>
+              <span v-if="line.highlight" class="highlight">{{ line.highlight }}</span>
+            </span>
+          </div>
+          <div class="cursor">_</div>
         </div>
-        <div class="cursor">_</div>
-      </div>
+      </ScrollPanel>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ScrollPanel } from 'primevue'
 
 const props = defineProps({
   width: {
@@ -111,7 +114,7 @@ const props = defineProps({
       },
       {
         keyword: '> ',
-        success: 'Portfolio running at',
+        success: 'Portfolio running at ',
         highlight: 'https://localhost:3000',
         glow: true,
         type: 'output',
@@ -276,6 +279,10 @@ onUnmounted(() => {
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.8);
   cursor: text;
+}
+.scrollPanel {
+  width: inherit;
+  height: inherit;
 }
 
 .terminal-line {

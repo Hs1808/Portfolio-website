@@ -100,7 +100,7 @@ onBeforeUnmount(() => {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: #000;
+  background: #000000;
   z-index: 1;
   overflow: hidden;
 }
@@ -111,8 +111,8 @@ onBeforeUnmount(() => {
   height: 100%;
   background-size: v-bind('GRID_SIZE + "px"') v-bind('GRID_SIZE + "px"');
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   pointer-events: none;
 }
 
@@ -120,8 +120,8 @@ onBeforeUnmount(() => {
   position: absolute;
   width: v-bind('GRID_SIZE + "px"');
   height: v-bind('GRID_SIZE + "px"');
-  background-color: rgba(255, 255, 255, 0.053);
-  border: 1px solid rgba(255, 255, 255, 0.347);
+  background-color: rgba(255, 255, 255, 0.063);
+  border: 1px solid rgba(255, 255, 255, 0.547);
   pointer-events: none;
   transition: opacity 0.2s ease-out;
 }

@@ -26,7 +26,7 @@
               class="char"
               :style="{ transitionDelay: `${index * 0.05}s` }"
             >
-              {{ char === ' ' ? '&nbsp;' : char }}
+              {{ char === ' ' ? '\u00A0' : char }}
             </span>
           </TransitionGroup>
           <br />
@@ -37,7 +37,7 @@
               class="char"
               :style="{ transitionDelay: `${(titleChars.length + index) * 0.03}s` }"
             >
-              {{ char === ' ' ? '&nbsp;' : char }}
+              {{ char === ' ' ? '\u00A0' : char }}
             </span>
           </TransitionGroup>
         </div>
@@ -51,7 +51,7 @@
                 transitionDelay: `${(titleChars.length + subtitleChars.length + index) * 0.03 + 0.2}s`,
               }"
             >
-              {{ char === ' ' ? '&nbsp;' : char }}
+              {{ char === ' ' ? '\u00A0' : char }}
             </span>
           </TransitionGroup>
         </div>
@@ -100,14 +100,16 @@
             { text: '▍', type: 'output', keyword: 'Achievements' },
             {
               prompt: '>>>',
+              text: '  👨‍💻 Founder & CEO @ DevVizr ',
+
               links: [
                 {
-                  text: 'DevProfile',
-                  url: 'https://DevProfile.com',
+                  text: 'DevVizr ',
+                  url: 'https://devvizr.com',
                 },
               ],
               type: 'command',
-              text: 'Founder of DevProfile',
+              glow: true,
             },
             {
               prompt: '>>>',
@@ -132,7 +134,7 @@
           :showButtons="true"
           :initialX="'71%'"
           :initialY="'27%'"
-          animation-delay="2s"
+          animation-delay="2.3s"
         />
       </div>
 
@@ -211,7 +213,7 @@ const taglineChars = computed(() => taglineText.split(''))
 <style scoped>
 .fade-bottom-enter-active,
 .fade-bottom-leave-active {
-  transition: all 0.7s ease;
+  transition: all 0.8s ease;
 }
 
 .fade-bottom-enter-from {
@@ -311,7 +313,16 @@ const taglineChars = computed(() => taglineText.split(''))
   color: inherit;
   text-shadow: inherit;
 }
+.terminal-link {
+  color: #7df3ff;
+  text-decoration: underline;
+  cursor: pointer;
+  text-shadow: 0 0 8px rgba(125, 243, 255, 0.3);
+}
 
+.terminal-link:hover {
+  color: #4ff0b7;
+}
 .typewriter-hello .blinking-cursor {
   animation: blink 1s step-end infinite;
   margin-left: 2px;

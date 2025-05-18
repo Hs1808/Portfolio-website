@@ -5,54 +5,98 @@
     ref="terminalContainer"
     @mousedown="startDrag"
   >
-    <div
-      class="terminal-glass scale-up-top-normal"
-      :style="{ ...glassStyle, animationDelay: animationDelay }"
-    >
-      <!-- Terminal Header -->
-      <div class="terminal-header" :class="{ 'no-buttons': !showButtons }">
-        <div class="terminal-buttons" v-if="showButtons">
-          <div class="terminal-btn close"></div>
-          <div class="terminal-btn minimize"></div>
-          <div class="terminal-btn maximize"></div>
-        </div>
-        <div class="terminal-title">{{ title }}</div>
-      </div>
-
-      <ScrollPanel class="scrollPanel">
-        <!-- Terminal Content -->
-        <div class="terminal-content">
-          <div
-            v-for="(line, index) in lines"
-            :key="index"
-            class="terminal-line"
-            :class="{ output: line.type === 'output' }"
-          >
-            <span v-if="line.prompt" class="prompt">{{ line.prompt }}</span>
-            <span v-if="line.command" class="command">{{ line.command }}</span>
-            <template v-if="line.text">
-              <span v-if="line.keyword" class="keyword">{{ line.keyword }}</span>
-              <span v-if="line.package" class="package">{{ line.package }}</span>
-              <span v-if="line.highlight" class="highlight">{{ line.highlight }}</span>
-              <span v-if="line.success" class="success">{{ line.success }}</span>
-              <span v-else>{{ line.text }}</span>
-            </template>
-            <span v-if="line.glow" class="glow">
-              <span v-if="line.keyword" class="keyword">{{ line.keyword }}</span>
-              <span v-if="line.success" class="success">{{ line.success }}</span>
-              <span v-if="line.highlight" class="highlight">{{ line.highlight }}</span>
-            </span>
+    <transition name="scale-up" appear>
+      <div
+        v-show="visible"
+        class="terminal-glass"
+        :style="{ ...glassStyle, animationDelay: props.animationDelay }"
+      >
+        <!-- Terminal Header -->
+        <div class="terminal-header" :class="{ 'no-buttons': !showButtons }">
+          <div class="terminal-buttons" v-if="showButtons">
+            <div class="terminal-btn close"></div>
+            <div class="terminal-btn minimize"></div>
+            <div class="terminal-btn maximize"></div>
           </div>
-          <div class="cursor">_</div>
+          <div class="terminal-title">{{ title }}</div>
         </div>
-      </ScrollPanel>
-    </div>
+
+        <ScrollPanel class="scrollPanel">
+          <!-- Terminal Content -->
+          <div class="terminal-content">
+            <div
+              v-for="(line, index) in lines"
+              :key="index"
+              class="terminal-line"
+              :class="{ output: line.type === 'output' }"
+            >
+              <span v-if="line.prompt" class="prompt">{{ line.prompt }}</span>
+              <span v-if="line.command" class="command">{{ line.command }}</span>
+              <template v-if="line.text">
+                <span v-if="line.keyword" class="keyword">{{ line.keyword }}</span>
+                <span v-if="line.package" class="package">{{ line.package }}</span>
+                <template v-if="line.links">
+                  <span v-for="(part, i) in parseTextWithLinks(line)" :key="i">
+                    <a
+                      v-if="part.isLink"
+                      :href="part.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="terminal-link"
+                      @click.stop="handleLinkClick($event, part.url)"
+                    >
+                      <span
+                        :class="{
+                          highlight: line.highlight && line.highlight.includes(part.text),
+                          success: line.success && line.success.includes(part.text),
+                        }"
+                      >
+                        {{ part.text }}
+                      </span>
+                    </a>
+                    <span
+                      v-else
+                      :class="{
+                        highlight: line.highlight && line.highlight.includes(part.text),
+                        success: line.success && line.success.includes(part.text),
+                      }"
+                    >
+                      {{ part.text }}
+                    </span>
+                  </span>
+                </template>
+                <template v-else>
+                  <span v-if="line.highlight" class="highlight">{{ line.highlight }}</span>
+                  <span v-if="line.success" class="success">{{ line.success }}</span>
+                  <span v-else>{{ line.text }}</span>
+                </template>
+              </template>
+              <span v-if="line.glow" class="glow">
+                <span v-if="line.keyword" class="keyword">{{ line.keyword }}</span>
+                <span v-if="line.success" class="success">{{ line.success }}</span>
+                <span v-if="line.highlight" class="highlight">{{ line.highlight }}</span>
+              </span>
+            </div>
+            <div class="cursor">_</div>
+          </div>
+        </ScrollPanel>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { ScrollPanel } from 'primevue'
+const visible = ref(false)
+
+onMounted(() => {
+  visible.value = true
+  if (terminalContainer.value) {
+    terminalContainer.value.style.left = currentPos.value.x
+    terminalContainer.value.style.top = currentPos.value.y
+  }
+})
 
 const props = defineProps({
   width: {
@@ -100,27 +144,29 @@ const props = defineProps({
         type: 'command',
       },
       {
-        text: 'Creating a new developer portfolio in /users/you/portfolio...',
-        keyword: 'Creating',
+        text: 'Visit my portfolio at https://example.com or email me@example.com',
         type: 'output',
+        links: [
+          {
+            text: 'https://example.com',
+            url: 'https://example.com',
+          },
+          {
+            text: 'me@example.com',
+            url: 'mailto:me@example.com',
+          },
+        ],
       },
       {
-        text: 'Installing packages: react@18, threejs, gsap',
-        keyword: 'Installing',
-        package: 'react@18, threejs, gsap',
-        type: 'output',
-      },
-      {
-        prompt: '~$',
-        command: 'npm run dev',
-        type: 'command',
-      },
-      {
-        keyword: '> ',
-        success: 'Portfolio running at ',
+        text: 'Portfolio running at https://localhost:3000',
         highlight: 'https://localhost:3000',
-        glow: true,
         type: 'output',
+        links: [
+          {
+            text: 'https://localhost:3000',
+            url: 'https://localhost:3000',
+          },
+        ],
       },
     ],
   },
@@ -138,8 +184,59 @@ const currentPos = ref({
   y: typeof props.initialY === 'number' ? `${props.initialY}px` : props.initialY,
 })
 
+const parseTextWithLinks = (line) => {
+  if (!line.links || line.links.length === 0) {
+    return [{ text: line.text, isLink: false }]
+  }
+
+  let parts = []
+  let remainingText = line.text
+  let lastIndex = 0
+
+  // Sort links by their position in the text to process them in order
+  const sortedLinks = [...line.links].sort(
+    (a, b) => line.text.indexOf(a.text) - line.text.indexOf(b.text),
+  )
+
+  for (const link of sortedLinks) {
+    const index = remainingText.indexOf(link.text)
+    if (index >= 0) {
+      // Add text before link
+      if (index > 0) {
+        parts.push({
+          text: remainingText.substring(0, index),
+          isLink: false,
+        })
+      }
+      // Add link
+      parts.push({
+        text: link.text,
+        url: link.url,
+        isLink: true,
+      })
+      // Update remaining text
+      remainingText = remainingText.substring(index + link.text.length)
+    }
+  }
+
+  // Add any remaining text after the last link
+  if (remainingText.length > 0) {
+    parts.push({
+      text: remainingText,
+      isLink: false,
+    })
+  }
+
+  return parts
+}
+
+const handleLinkClick = (event, url) => {
+  event.preventDefault()
+  window.open(url, '_blank', 'noopener,noreferrer')
+}
+
 const startDrag = (e) => {
-  if (!props.draggable || e.target.closest('.terminal-content')) return
+  if (!props.draggable || e.target.closest('a') || e.target.closest('.terminal-content')) return
 
   isDragging.value = true
 
@@ -191,14 +288,6 @@ const glassStyle = computed(() => ({
   '--glass-opacity': props.glassOpacity,
 }))
 
-onMounted(() => {
-  // Initialize position
-  if (terminalContainer.value) {
-    terminalContainer.value.style.left = currentPos.value.x
-    terminalContainer.value.style.top = currentPos.value.y
-  }
-})
-
 onUnmounted(() => {
   document.removeEventListener('mousemove', handleDrag)
   document.removeEventListener('mouseup', stopDrag)
@@ -206,29 +295,29 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-@keyframes scale-up-top-normal {
-  0% {
-    transform: scale(0);
-    transform-origin: 50% 0%;
-  }
-  50% {
-    transform: scale(1.2);
-    transform-origin: 50% 0%;
-  }
-  100% {
-    transform: scale(1);
-    transform-origin: 50% 0%;
-  }
+.scale-up-enter-active,
+.scale-up-leave-active,
+.scale-up-appear-active {
+  transition:
+    transform 0.3s cubic-bezier(0.39, 0.575, 0.565, 1),
+    opacity 0.6s ease;
+  transition-delay: var(--animation-delay, 0s); /* fallback to 0s */
 }
 
-.scale-up-top-normal {
-  animation-name: scale-up-top-normal;
-  animation-duration: 1s;
-  animation-timing-function: cubic-bezier(0.39, 0.575, 0.565, 1);
-  animation-iteration-count: 1;
-  animation-fill-mode: both;
-  /* Remove hardcoded delay, use inline style instead */
+.scale-up-enter-from,
+.scale-up-leave-to,
+.scale-up-appear-from {
+  transform: scale(0);
+  opacity: 0;
 }
+
+.scale-up-enter-to,
+.scale-up-leave-from,
+.scale-up-appear-to {
+  transform: scale(1);
+  opacity: 1;
+}
+
 /* Base Styles */
 .terminal-container {
   position: fixed;
@@ -300,7 +389,16 @@ onUnmounted(() => {
   color: rgba(255, 255, 255, 0.6);
   letter-spacing: 0.5px;
 }
+.terminal-link {
+  color: inherit;
+  text-decoration: underline;
+  cursor: pointer !important; /* Force pointer cursor */
+  pointer-events: auto !important; /* Override any parent disabling */
+}
 
+.terminal-link:hover {
+  color: #7df3ff; /* Match your highlight color */
+}
 /* Content Styles */
 .terminal-content {
   padding: 20px;
@@ -401,6 +499,35 @@ onUnmounted(() => {
   );
   transform: rotate(30deg);
   pointer-events: none;
+}
+
+.terminal-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(125, 243, 255, 0.5);
+  cursor: pointer;
+}
+
+.terminal-link:hover {
+  text-decoration-color: rgba(125, 243, 255, 0.8);
+}
+
+/* Animation for scale-up */
+.scale-up-enter-active {
+  animation: scale-up-top-normal 0.7s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  animation-delay: var(--animation-delay, 0s);
+}
+@keyframes scale-up-top-normal {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+    transform-origin: 50% 0%;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    transform-origin: 50% 0%;
+  }
 }
 </style>
 

@@ -6,7 +6,7 @@
     <!-- Content container with intersection observer -->
     <div class="content-container" ref="contentContainer">
       <!-- Hello text with dynamic contrast class -->
-      <div class="hello-text" :class="{ 'high-contrast': needsContrast }" ref="helloText">
+      <!-- <div class="hello-text" :class="{ 'high-contrast': needsContrast }" ref="helloText">
         <TypewriterEffect
           :text="['Hello', 'Hola', 'Bonjour', 'Ciao', 'Namaste', 'Sat Sri Akal']"
           :typingSpeed="100"
@@ -14,7 +14,7 @@
           :pauseDuration="1500"
           class="typewriter-hello"
         />
-      </div>
+      </div> -->
 
       <!-- Left-side intro block with transitions -->
       <div class="left-intro">
@@ -90,6 +90,15 @@
             @load="handleImageLoad"
           />
         </transition>
+        <div class="hello-text" :class="{ 'high-contrast': needsContrast }" ref="helloText">
+          <TypewriterEffect
+            :text="['Hello', 'Hola', 'Bonjour', 'Ciao', 'Namaste', 'Sat Sri Akal']"
+            :typingSpeed="100"
+            :deletingSpeed="75"
+            :pauseDuration="1500"
+            class="typewriter-hello"
+          />
+        </div>
       </div>
 
       <div class="terminal-container">
@@ -163,6 +172,30 @@ const imageWrapper = ref(null)
 const helloText = ref(null)
 const showImage = ref(false)
 
+// Animation control refs
+const showHelloText = ref(false)
+const showIntroText = ref(false)
+const showMissionTerminal = ref(false)
+const showAchievementsTerminal = ref(false)
+const showDotAnimation = ref(false)
+
+// Intersection observer for mobile animation trigger
+let observer = null
+const isMobile = window.matchMedia('(max-width: 600px)').matches
+
+const handleIntersection = (entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      if (entry.target.classList.contains('hello-text')) showHelloText.value = true
+      if (entry.target.classList.contains('left-intro')) showIntroText.value = true
+      if (entry.target.classList.contains('mission-terminal')) showMissionTerminal.value = true
+      if (entry.target.classList.contains('achievements-terminal'))
+        showAchievementsTerminal.value = true
+      if (entry.target.classList.contains('dot-animation')) showDotAnimation.value = true
+    }
+  })
+}
+
 // Check contrast against image
 const checkContrast = () => {
   if (!contentContainer.value || !imageWrapper.value || !helloText.value) return
@@ -187,17 +220,37 @@ const handleScrollResize = () => {
 onMounted(() => {
   window.addEventListener('scroll', handleScrollResize)
   window.addEventListener('resize', handleScrollResize)
-
-  // Initial check after slight delay to ensure all elements are rendered
   setTimeout(checkContrast, 400)
   setTimeout(() => {
     showImage.value = true
   }, 300)
+
+  if (isMobile && typeof window.IntersectionObserver !== 'undefined') {
+    observer = new IntersectionObserver(handleIntersection, {
+      threshold: 0.2,
+    })
+    const targets = [
+      helloText.value,
+      document.querySelector('.left-intro'),
+      document.querySelector('.mission-terminal'),
+      document.querySelector('.achievements-terminal'),
+      document.querySelector('.dot-animation'),
+    ]
+    targets.forEach((el) => el && observer.observe(el))
+  } else {
+    // Desktop: show all as before
+    setTimeout(() => (showHelloText.value = true), 300)
+    setTimeout(() => (showIntroText.value = true), 800)
+    setTimeout(() => (showMissionTerminal.value = true), 1600)
+    setTimeout(() => (showAchievementsTerminal.value = true), 2000)
+    setTimeout(() => (showDotAnimation.value = true), 2400)
+  }
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScrollResize)
   window.removeEventListener('resize', handleScrollResize)
+  if (observer) observer.disconnect()
 })
 
 // Add these computed properties for the split text
@@ -291,8 +344,9 @@ const taglineChars = computed(() => taglineText.split(''))
 .hello-text {
   font-family: '911porschav3-3d', sans-serif;
   position: absolute;
-  top: 20%;
+  top: -4%;
   left: 50%;
+  width: 150%;
   transform: translateX(-50%);
   font-size: clamp(2.5rem, 8vw, 4rem);
   font-weight: 700;
@@ -452,6 +506,86 @@ const taglineChars = computed(() => taglineText.split(''))
 
   .left-intro-quote {
     font-size: clamp(0.8rem, 3vw, 1rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .content-container {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    height: auto;
+    min-height: 100vh;
+    padding: 10rem 0 2rem 0;
+    gap: 1.2rem;
+    display: flex;
+  }
+
+  .image-wrapper {
+    position: relative;
+    width: 80vw;
+    max-width: 220px;
+    margin: 1.2rem auto 0.5rem auto;
+    border-radius: 0.7rem;
+    left: unset;
+    bottom: unset;
+    transform: none;
+    z-index: 2;
+    order: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hello-text {
+    position: absolute;
+    top: 42%;
+    left: 54%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(1.2rem, 7vw, 2rem);
+    padding: 0 0.5rem;
+    text-align: center;
+    width: 90%;
+    margin: 0;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 0.5rem;
+    pointer-events: none;
+  }
+
+  .left-intro {
+    order: 1;
+    position: static;
+    max-width: 100%;
+    transform: none;
+    padding: 0 0.5rem;
+    margin-bottom: 1.2rem;
+    text-align: left;
+  }
+
+  .terminal-container {
+    order: 3;
+    position: static !important;
+    width: 98vw !important;
+    max-width: 100vw !important;
+    margin: 1rem auto;
+    left: unset !important;
+    top: unset !important;
+    transform: none !important;
+    min-width: unset !important;
+    min-height: unset !important;
+  }
+
+  .dot-animation {
+    order: 4;
+    width: 95vw;
+    max-width: 220px;
+    bottom: 1%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    transform: none;
+    position: static;
   }
 }
 

@@ -16,14 +16,47 @@
         />
       </div>
 
-      <!-- Left-side intro block -->
+      <!-- Left-side intro block with transitions -->
       <div class="left-intro">
         <div class="left-intro-title">
-          Full-Stack & <br />
-          data Engineer
+          <TransitionGroup name="slide-left" tag="span" appear>
+            <span
+              v-for="(char, index) in titleChars"
+              :key="index"
+              class="char"
+              :style="{ transitionDelay: `${index * 0.05}s` }"
+            >
+              {{ char === ' ' ? '&nbsp;' : char }}
+            </span>
+          </TransitionGroup>
+          <br />
+          <TransitionGroup name="slide-left" tag="span" appear>
+            <span
+              v-for="(char, index) in subtitleChars"
+              :key="`sub-${index}`"
+              class="char"
+              :style="{ transitionDelay: `${(titleChars.length + index) * 0.03}s` }"
+            >
+              {{ char === ' ' ? '&nbsp;' : char }}
+            </span>
+          </TransitionGroup>
         </div>
-        <div class="left-intro-sub">Code × Cognition × Future Systems</div>
+        <div class="left-intro-sub">
+          <TransitionGroup name="slide-left" tag="span" appear>
+            <span
+              v-for="(char, index) in taglineChars"
+              :key="`tag-${index}`"
+              class="char"
+              :style="{
+                transitionDelay: `${(titleChars.length + subtitleChars.length + index) * 0.03 + 0.2}s`,
+              }"
+            >
+              {{ char === ' ' ? '&nbsp;' : char }}
+            </span>
+          </TransitionGroup>
+        </div>
       </div>
+
       <div class="terminal-container">
         <TerminalCard
           class="terminal-card"
@@ -42,17 +75,21 @@
           :showButtons="false"
           :initialX="'8%'"
           :initialY="'50%'"
+          animation-delay="3s"
         />
       </div>
 
       <!-- Profile image with intersection detection -->
       <div class="image-wrapper" ref="imageWrapper">
-        <Image
-          :src="profileImage"
-          alt="Harshdeep Singh"
-          imageClass="profile-image"
-          @load="handleImageLoad"
-        />
+        <transition name="fade-bottom">
+          <Image
+            v-show="showImage"
+            :src="profileImage"
+            alt="Harshdeep Singh"
+            imageClass="profile-image"
+            @load="handleImageLoad"
+          />
+        </transition>
       </div>
 
       <div class="terminal-container">
@@ -95,7 +132,7 @@
           :showButtons="true"
           :initialX="'71%'"
           :initialY="'27%'"
-          animate="true"
+          animation-delay="2s"
         />
       </div>
 
@@ -107,7 +144,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import GridBackground from '@/components/GridBackground.vue'
 import Image from 'primevue/image'
 import TypewriterEffect from '@/components/TypewriterEffect.vue'
@@ -122,6 +159,7 @@ const needsContrast = ref(false)
 const contentContainer = ref(null)
 const imageWrapper = ref(null)
 const helloText = ref(null)
+const showImage = ref(false)
 
 // Check contrast against image
 const checkContrast = () => {
@@ -149,16 +187,52 @@ onMounted(() => {
   window.addEventListener('resize', handleScrollResize)
 
   // Initial check after slight delay to ensure all elements are rendered
-  setTimeout(checkContrast, 100)
+  setTimeout(checkContrast, 400)
+  setTimeout(() => {
+    showImage.value = true
+  }, 300)
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScrollResize)
   window.removeEventListener('resize', handleScrollResize)
 })
+
+// Add these computed properties for the split text
+const titleText = 'Full-Stack &'
+const subtitleText = 'data Engineer'
+const taglineText = 'Code × Cognition × Future Systems'
+
+const titleChars = computed(() => titleText.split(''))
+const subtitleChars = computed(() => subtitleText.split(''))
+const taglineChars = computed(() => taglineText.split(''))
 </script>
 
 <style scoped>
+.fade-bottom-enter-active,
+.fade-bottom-leave-active {
+  transition: all 0.7s ease;
+}
+
+.fade-bottom-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-bottom-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* If you want the image to fade out when leaving (optional) */
+.fade-bottom-leave-from {
+  opacity: 1;
+}
+
+.fade-bottom-leave-to {
+  opacity: 0;
+}
+
 .home-view {
   font-family:
     'orbitron',
@@ -368,5 +442,36 @@ onUnmounted(() => {
   .left-intro-quote {
     font-size: clamp(0.8rem, 3vw, 1rem);
   }
+}
+
+.left-intro-title,
+.left-intro-sub {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.char {
+  display: inline-block;
+  position: relative;
+  white-space: pre;
+}
+
+.slide-left-enter-active {
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.slide-left-enter-from {
+  opacity: 0;
+  transform: translateX(-30px) skewX(15deg);
+}
+
+.slide-left-enter-to {
+  opacity: 1;
+  transform: translateX(0) skewX(0deg);
+}
+
+/* Ensure line breaks are preserved */
+.left-intro-title {
+  white-space: pre-line;
 }
 </style>

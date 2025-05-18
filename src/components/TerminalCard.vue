@@ -5,7 +5,10 @@
     ref="terminalContainer"
     @mousedown="startDrag"
   >
-    <div class="terminal-glass" :style="glassStyle">
+    <div
+      class="terminal-glass scale-up-top-normal"
+      :style="{ ...glassStyle, animationDelay: animationDelay }"
+    >
       <!-- Terminal Header -->
       <div class="terminal-header" :class="{ 'no-buttons': !showButtons }">
         <div class="terminal-buttons" v-if="showButtons">
@@ -121,6 +124,10 @@ const props = defineProps({
       },
     ],
   },
+  animationDelay: {
+    type: String,
+    default: '1s',
+  },
 })
 
 const terminalContainer = ref(null)
@@ -199,6 +206,29 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+@keyframes scale-up-top-normal {
+  0% {
+    transform: scale(0);
+    transform-origin: 50% 0%;
+  }
+  50% {
+    transform: scale(1.2);
+    transform-origin: 50% 0%;
+  }
+  100% {
+    transform: scale(1);
+    transform-origin: 50% 0%;
+  }
+}
+
+.scale-up-top-normal {
+  animation-name: scale-up-top-normal;
+  animation-duration: 1s;
+  animation-timing-function: cubic-bezier(0.39, 0.575, 0.565, 1);
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+  /* Remove hardcoded delay, use inline style instead */
+}
 /* Base Styles */
 .terminal-container {
   position: fixed;

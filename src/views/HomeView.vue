@@ -161,7 +161,6 @@ import Image from 'primevue/image'
 import TypewriterEffect from '@/components/TypewriterEffect.vue'
 import DotAnimation from '@/components/DotAnimation.vue'
 import TerminalCard from '@/components/TerminalCard.vue'
-import { motion } from 'motion-v'
 
 const isDarkMode = true
 const showGrid = ref(true)

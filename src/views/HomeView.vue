@@ -54,6 +54,15 @@
               {{ char === ' ' ? '\u00A0' : char }}
             </span>
           </TransitionGroup>
+          <div class="CTA-button">
+            <a href="#contact" class="animated-btn">
+              Hire Me!
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -161,6 +170,8 @@ import Image from 'primevue/image'
 import TypewriterEffect from '@/components/TypewriterEffect.vue'
 import DotAnimation from '@/components/DotAnimation.vue'
 import TerminalCard from '@/components/TerminalCard.vue'
+import Button from 'primevue/button';
+
 
 const isDarkMode = true
 const showGrid = ref(true)
@@ -456,7 +467,7 @@ const taglineChars = computed(() => taglineText.split(''))
 
 .left-intro {
   position: absolute;
-  top: 19%;
+  top: 25%;
   left: 2.5%;
   transform: translateY(-50%);
   max-width: 550px;
@@ -482,7 +493,12 @@ const taglineChars = computed(() => taglineText.split(''))
   color: var(--text-color);
   margin: 0 0 0 0;
 }
-
+.CTA-button{
+  margin-top: 1rem;
+  width: 100%;
+  pointer-events: all;
+  
+}
 .left-intro-quote {
   pointer-events: all;
 }
@@ -636,5 +652,108 @@ const taglineChars = computed(() => taglineText.split(''))
 /* Ensure line breaks are preserved */
 .left-intro-title {
   white-space: pre-line;
+}
+
+.animated-btn {
+  position: relative;
+  display: inline-block;
+  padding: 18px 40px;
+  color: rgb(251, 251, 251);
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 3px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  overflow: hidden;
+  transition: color 0.2s;
+  cursor: pointer;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+.animated-btn::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  bottom: 2px;
+  width: 50%;
+  background: rgba(255,255,255,0.05);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.animated-btn span:nth-child(1) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, #0c002b,rgb(213, 253, 255));
+  animation: animate1 2s linear infinite;
+  animation-delay: 1s;
+  z-index: 3;
+}
+@keyframes animate1 {
+  0% { transform: translateX(-100%);}
+  100% { transform: translateX(100%);}
+}
+
+.animated-btn span:nth-child(2) {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, #0c002b, rgb(213, 253, 255));
+  animation: animate2 2s linear infinite;
+  animation-delay: 2s;
+  z-index: 3;
+}
+@keyframes animate2 {
+  0% { transform: translateY(-100%);}
+  100% { transform: translateY(100%);}
+}
+
+.animated-btn span:nth-child(3) {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to left, #0c002b, rgb(213, 253, 255));
+  animation: animate3 2s linear infinite;
+  animation-delay: 1s;
+  z-index: 3;
+}
+@keyframes animate3 {
+  0% { transform: translateX(100%);}
+  100% { transform: translateX(-100%);}
+}
+
+.animated-btn span:nth-child(4) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to top, #0c002b,rgb(213, 253, 255));
+  animation: animate4 2s linear infinite;
+  animation-delay: 2s;
+  z-index: 3;
+}
+@keyframes animate4 {
+  0% { transform: translateY(100%);}
+  100% { transform: translateY(-100%);}
+}
+
+.animated-btn:hover,
+.animated-btn:focus {
+  color: #fff;
+  text-shadow: #7df3ff 0 0 10px, #7df2ff80 0 0 20px, #7df2ff4e 0 0 30px;
+  transition: background 0.2s, color 0.2s;
 }
 </style>

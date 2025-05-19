@@ -5,13 +5,13 @@ import Tooltip from 'primevue/tooltip'
 import AnimateOnScroll from 'primevue/animateonscroll'
 
 // Theme and styles
-import Aura from '@primeuix/themes/aura'
+import Nora from '@primeuix/themes/nora'
 
 const app = createApp(App)
 
 app.use(PrimeVue, {
   theme: {
-    preset: Aura,
+    preset: Nora,
     options: {
       darkModeSelector: true,
     },

@@ -20,7 +20,7 @@ import ToolBar from './components/ToolBar.vue'
 import HomeView from './views/HomeView.vue'
 import TransitionIntro from './components/TransitionIntro.vue'
 
-const showIntro = ref(true)
+const showIntro = ref(false)
 
 const handleAnimationComplete = () => {
   showIntro.value = false

@@ -55,13 +55,15 @@
             </span>
           </TransitionGroup>
           <div class="CTA-button">
-            <a href="#contact" class="animated-btn">
-              Hire Me!
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </a>
+            <Transition name="slide-fade" appear >
+              <a href="#contact" class="animated-btn">
+                Hire Me!
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </a>
+            </Transition>
           </div>
         </div>
       </div>
@@ -157,7 +159,20 @@
       </div>
 
       <div class="dot-animation">
-        <DotAnimation text="Learn More . Click Here . " radius="60" font-size="12" />
+        <div class="dot-wrapper">
+          <DotAnimation text="Learn More . Scroll Down . " radius="50" font-size="12" />
+          <Transition name="fade-scale" appear>
+            <Button
+              icon="pi pi-arrow-down"
+              class="p-button-outlined p-button-secondary arrow-btn"
+              @click="scrollTo('about')"
+              variant="text"
+              size="large"
+              severity="contrast"
+              rounded
+            />
+          </Transition>
+        </div>
       </div>
     </div>
   </div>
@@ -428,19 +443,30 @@ const taglineChars = computed(() => taglineText.split(''))
 /* Right panel */
 .dot-animation {
   position: absolute;
-  right: -5%;
-  top: 82%;
-  transform: translateY(-50%) scale(0.9);
-  transform-origin: center bottom;
-  width: min(37.8%, 378px);
-  height: auto;
+  bottom: 1.5%;
+  right: 1.5%;
+  transform: none;
+  z-index: 2;
+  pointer-events: all;
+}
+.dot-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  z-index: 1;
-  pointer-events: none;
+  align-items: center;
+  pointer-events: all;
 }
 
+.arrow-btn {
+  position: absolute;
+  top: 63%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-shadow: #7df3ff;
+  pointer-events: all
+}
 .RightPanel {
   position: absolute;
   right: 5%;
@@ -467,7 +493,7 @@ const taglineChars = computed(() => taglineText.split(''))
 
 .left-intro {
   position: absolute;
-  top: 25%;
+  top: 27%;
   left: 2.5%;
   transform: translateY(-50%);
   max-width: 550px;
@@ -497,6 +523,7 @@ const taglineChars = computed(() => taglineText.split(''))
   margin-top: 1rem;
   width: 100%;
   pointer-events: all;
+  margin-bottom: 20px
   
 }
 .left-intro-quote {
@@ -666,7 +693,7 @@ const taglineChars = computed(() => taglineText.split(''))
   font-weight: 600;
   background: transparent;
   border: none;
-  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  box-shadow: 0 8px 24px rgba(99, 140, 173, 0.33);
   overflow: hidden;
   transition: color 0.2s;
   cursor: pointer;
@@ -681,7 +708,7 @@ const taglineChars = computed(() => taglineText.split(''))
   left: 2px;
   bottom: 2px;
   width: 50%;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   pointer-events: none;
   z-index: 2;
 }
@@ -755,5 +782,48 @@ const taglineChars = computed(() => taglineText.split(''))
   color: #fff;
   text-shadow: #7df3ff 0 0 10px, #7df2ff80 0 0 20px, #7df2ff4e 0 0 30px;
   transition: background 0.2s, color 0.2s;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.slide-fade-enter-from {
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+}
+.slide-fade-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.fade-scale-enter-active {
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition-delay: 0.4s;
+}
+.fade-scale-enter-from {
+  opacity: 0;
+  transform: translateY(10px) scale(0.8);
+}
+.fade-scale-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.arrow-btn {
+  position: absolute;
+  top: 63%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-shadow: #7df3ff;
+  pointer-events: all;
+  transition:
+    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    opacity 0.3s ease;
+  will-change: transform;
+  z-index: 3;
+}
+.arrow-btn:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  opacity: 0.9;
 }
 </style>

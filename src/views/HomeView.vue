@@ -327,6 +327,22 @@ const taglineChars = computed(() => taglineText.split(''))
   align-items: flex-end;
   z-index: 2;
   pointer-events: none;
+
+    /* 13-inch screen optimization (2560x1600) */
+  @media (min-width: 1440px) and (max-width: 1600px) {
+    width: clamp(220px, 30%, 300px);
+      transform: translateX(-50%) scale(0.7);
+
+  }
+
+  /* 13-inch (1920x1200) */
+  @media (min-width: 1200px) and (max-width: 1440px) {
+    width: clamp(200px, 28%, 280px);
+    transform: translateX(-50%) scale(0.7);
+
+  }
+
+  
 }
 
 .profile-image {
@@ -506,6 +522,9 @@ const taglineChars = computed(() => taglineText.split(''))
   .left-intro-quote {
     font-size: clamp(0.8rem, 3vw, 1rem);
   }
+
+
+
 }
 
 @media (max-width: 600px) {

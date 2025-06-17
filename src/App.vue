@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app " class="dark-mode">
     <TransitionIntro
       v-if="showIntro"
       bgColor="#121212"

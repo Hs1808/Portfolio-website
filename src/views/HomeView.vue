@@ -55,7 +55,7 @@
             </span>
           </TransitionGroup>
           <div class="CTA-button">
-            <Transition name="slide-fade" appear >
+            <Transition name="slide-fade" appear>
               <a href="#contact" class="animated-btn">
                 Hire Me!
                 <span></span>
@@ -185,8 +185,7 @@ import Image from 'primevue/image'
 import TypewriterEffect from '@/components/TypewriterEffect.vue'
 import DotAnimation from '@/components/DotAnimation.vue'
 import TerminalCard from '@/components/TerminalCard.vue'
-import Button from 'primevue/button';
-
+import Button from 'primevue/button'
 
 const isDarkMode = true
 const showGrid = ref(true)
@@ -354,21 +353,17 @@ const taglineChars = computed(() => taglineText.split(''))
   z-index: 2;
   pointer-events: none;
 
-    /* 13-inch screen optimization (2560x1600) */
+  /* 13-inch screen optimization (2560x1600) */
   @media (min-width: 1440px) and (max-width: 1600px) {
     width: clamp(220px, 30%, 300px);
-      transform: translateX(-50%) scale(0.7);
-
+    transform: translateX(-50%) scale(0.7);
   }
 
   /* 13-inch (1920x1200) */
   @media (min-width: 1200px) and (max-width: 1440px) {
     width: clamp(200px, 28%, 280px);
     transform: translateX(-50%) scale(0.7);
-
   }
-
-  
 }
 
 .profile-image {
@@ -465,7 +460,7 @@ const taglineChars = computed(() => taglineText.split(''))
   left: 50%;
   transform: translate(-50%, -50%);
   text-shadow: #7df3ff;
-  pointer-events: all
+  pointer-events: all;
 }
 .RightPanel {
   position: absolute;
@@ -519,12 +514,11 @@ const taglineChars = computed(() => taglineText.split(''))
   color: var(--text-color);
   margin: 0 0 0 0;
 }
-.CTA-button{
+.CTA-button {
   margin-top: 1rem;
   width: 100%;
   pointer-events: all;
-  margin-bottom: 20px
-  
+  margin-bottom: 20px;
 }
 .left-intro-quote {
   pointer-events: all;
@@ -565,9 +559,6 @@ const taglineChars = computed(() => taglineText.split(''))
   .left-intro-quote {
     font-size: clamp(0.8rem, 3vw, 1rem);
   }
-
-
-
 }
 
 @media (max-width: 600px) {
@@ -702,7 +693,7 @@ const taglineChars = computed(() => taglineText.split(''))
 }
 
 .animated-btn::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 2px;
   left: 2px;
@@ -719,14 +710,18 @@ const taglineChars = computed(() => taglineText.split(''))
   left: 0;
   width: 100%;
   height: 2px;
-  background: linear-gradient(to right, #0c002b,rgb(213, 253, 255));
+  background: linear-gradient(to right, #0c002b, rgb(213, 253, 255));
   animation: animate1 2s linear infinite;
   animation-delay: 1s;
   z-index: 3;
 }
 @keyframes animate1 {
-  0% { transform: translateX(-100%);}
-  100% { transform: translateX(100%);}
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .animated-btn span:nth-child(2) {
@@ -741,8 +736,12 @@ const taglineChars = computed(() => taglineText.split(''))
   z-index: 3;
 }
 @keyframes animate2 {
-  0% { transform: translateY(-100%);}
-  100% { transform: translateY(100%);}
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
 }
 
 .animated-btn span:nth-child(3) {
@@ -757,8 +756,12 @@ const taglineChars = computed(() => taglineText.split(''))
   z-index: 3;
 }
 @keyframes animate3 {
-  0% { transform: translateX(100%);}
-  100% { transform: translateX(-100%);}
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 .animated-btn span:nth-child(4) {
@@ -767,21 +770,30 @@ const taglineChars = computed(() => taglineText.split(''))
   left: 0;
   width: 2px;
   height: 100%;
-  background: linear-gradient(to top, #0c002b,rgb(213, 253, 255));
+  background: linear-gradient(to top, #0c002b, rgb(213, 253, 255));
   animation: animate4 2s linear infinite;
   animation-delay: 2s;
   z-index: 3;
 }
 @keyframes animate4 {
-  0% { transform: translateY(100%);}
-  100% { transform: translateY(-100%);}
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
 }
 
 .animated-btn:hover,
 .animated-btn:focus {
   color: #fff;
-  text-shadow: #7df3ff 0 0 10px, #7df2ff80 0 0 20px, #7df2ff4e 0 0 30px;
-  transition: background 0.2s, color 0.2s;
+  text-shadow:
+    #7df3ff 0 0 10px,
+    #7df2ff80 0 0 20px,
+    #7df2ff4e 0 0 30px;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 
 .slide-fade-enter-active {

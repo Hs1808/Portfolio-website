@@ -13,7 +13,7 @@ app.use(PrimeVue, {
   theme: {
     preset: Nora,
     options: {
-      darkModeSelector: true,
+      darkModeSelector: '.dark-mode',
     },
   },
 })

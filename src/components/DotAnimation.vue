@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, watchEffect } from 'vue'
 
 const props = defineProps({
   text: {
@@ -21,41 +21,43 @@ const props = defineProps({
   },
   radius: {
     type: Number,
-    default: 150, // Smaller default radius
+    default: 150,
   },
   fontSize: {
     type: Number,
-    default: 40, // Smaller font size for tighter radius
+    default: 40,
   },
   rotationSpeed: {
     type: Number,
-    default: 10, // Seconds per full rotation
+    default: 10,
   },
   show: {
     type: Boolean,
     default: true,
   },
+  id: {
+    type: String,
+    default: 'dot', // Unique identifier for namespacing keyframes
+  },
 })
 
-// Calculate how many characters to display (minimum 10 for good distribution)
 const displayedText = computed(() => {
   const minLength = 10
   if (props.text.length >= minLength) {
     return props.text.split('')
   }
-  // Pad with spaces if text is shorter than minLength
   return (props.text + ' '.repeat(minLength - props.text.length)).split('')
 })
 
 const containerStyles = computed(() => ({
-  height: `${props.radius * 2 + 100}px`, // Container sized to circle
-  opacity: props.show ? 1 : 0,
+  height: `${props.radius * 2 + 100}px`,
   width: `${props.radius * 2 + 100}px`,
+  opacity: props.show ? 1 : 0,
 }))
 
-// Generate dynamic styles for each character
 const getCharStyle = (index) => {
   const angle = (360 / displayedText.value.length) * index
+  const animName = `spin-${props.id}-${index + 1}`
   return {
     fontSize: `${props.fontSize}px`,
     fontFamily: 'Dusseldot',
@@ -68,24 +70,26 @@ const getCharStyle = (index) => {
     textAlign: 'center',
     fontWeight: 500,
     transform: `rotate(${angle}deg)`,
-    animation: `spin${index + 1} ${props.rotationSpeed}s linear infinite`,
+    animation: `${animName} ${props.rotationSpeed}s linear infinite`,
   }
 }
 
-// Generate dynamic keyframes
 const generateKeyframes = () => {
-  let styleTag = document.getElementById('circular-text-keyframes')
+  const styleId = `circular-text-keyframes-${props.id}`
+  let styleTag = document.getElementById(styleId)
+
   if (!styleTag) {
     styleTag = document.createElement('style')
-    styleTag.id = 'circular-text-keyframes'
+    styleTag.id = styleId
     document.head.appendChild(styleTag)
   }
 
   let keyframes = ''
   displayedText.value.forEach((_, index) => {
     const angle = (360 / displayedText.value.length) * index
+    const animName = `spin-${props.id}-${index + 1}`
     keyframes += `
-      @keyframes spin${index + 1} {
+      @keyframes ${animName} {
         0% {
           transform: rotate(${angle}deg);
           font-variation-settings: 'wdth' 50;
@@ -112,18 +116,16 @@ const generateKeyframes = () => {
       }
     `
   })
+
   styleTag.innerHTML = keyframes
 }
 
-// Generate keyframes when component mounts or props change
-generateKeyframes()
+watchEffect(() => {
+  generateKeyframes()
+})
 </script>
 
 <style scoped lang="scss">
-:deep(.grid-background) {
-  z-index: 1;
-}
-
 .container {
   position: relative;
   display: flex;

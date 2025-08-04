@@ -1,7 +1,6 @@
 <template>
   <div class="home-view" :class="{ dark: isDarkMode }">
     <!-- Background elements -->
-    <GridBackground v-if="showGrid" :is-dark-mode="isDarkMode" />
 
     <!-- Content container with intersection observer -->
     <div class="content-container" ref="contentContainer">
@@ -160,12 +159,12 @@
 
       <div class="dot-animation">
         <div class="dot-wrapper">
-          <DotAnimation text="Learn More . Scroll Down . " radius="50" font-size="12" />
+          <DotAnimation id="home" text="Learn More . Scroll Down . " radius="50" font-size="12" />
           <Transition name="fade-scale" appear>
             <Button
               icon="pi pi-arrow-down"
               class="p-button-outlined p-button-secondary arrow-btn"
-              @click="scrollTo('about')"
+              @click="scrollToAbout"
               variant="text"
               size="large"
               severity="contrast"
@@ -180,7 +179,6 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import GridBackground from '@/components/GridBackground.vue'
 import Image from 'primevue/image'
 import TypewriterEffect from '@/components/TypewriterEffect.vue'
 import DotAnimation from '@/components/DotAnimation.vue'
@@ -188,7 +186,6 @@ import TerminalCard from '@/components/TerminalCard.vue'
 import Button from 'primevue/button'
 
 const isDarkMode = true
-const showGrid = ref(true)
 const profileImage = ref(new URL('@/assets/homeImage.png', import.meta.url).href)
 const needsContrast = ref(false)
 const contentContainer = ref(null)
@@ -270,7 +267,12 @@ onMounted(() => {
     setTimeout(() => (showDotAnimation.value = true), 2400)
   }
 })
-
+function scrollToAbout() {
+  const aboutSection = document.getElementById('about')
+  if (aboutSection) {
+    aboutSection.scrollIntoView({ behavior: 'smooth' })
+  }
+}
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScrollResize)
   window.removeEventListener('resize', handleScrollResize)
@@ -322,7 +324,6 @@ const taglineChars = computed(() => taglineText.split(''))
     Arial,
     sans-serif;
   position: relative;
-  z-index: 1;
   width: 100%;
   min-height: 100vh;
   overflow: hidden;

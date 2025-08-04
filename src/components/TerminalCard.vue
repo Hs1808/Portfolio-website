@@ -274,7 +274,7 @@ const stopDrag = () => {
 const containerStyle = computed(() => ({
   width: props.width,
   height: props.height,
-  position: 'fixed',
+  position: 'absolute',
   left: currentPos.value.x,
   top: currentPos.value.y,
   cursor: props.draggable ? 'grab' : 'default',

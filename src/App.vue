@@ -33,7 +33,7 @@ import TransitionIntro from './components/TransitionIntro.vue'
 import GridBackground from '@/components/GridBackground.vue'
 const showGrid = ref(true)
 
-const showIntro = ref(false)
+const showIntro = ref(true)
 
 const handleAnimationComplete = () => {
   showIntro.value = false

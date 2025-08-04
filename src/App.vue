@@ -105,17 +105,6 @@ html {
   padding: 2rem;
 }
 
-/* OPTIONAL: background images (replace with your own assets) */
-#home {
-  background-image: url('@/assets/bg-home.jpg');
-  background-color: #111;
-}
-
-#about {
-  background-image: url('@/assets/bg-about.jpg');
-  background-color: #222;
-}
-
 /* Make sure sections stack vertically and allow scrolling on mobile */
 @media (max-width: 600px) {
   .scroll-container {

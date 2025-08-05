@@ -6,8 +6,10 @@ import AnimateOnScroll from 'primevue/animateonscroll'
 
 // Theme and styles
 import Nora from '@primeuix/themes/nora'
+import ToastService from 'primevue/toastservice'
 
 const app = createApp(App)
+app.use(ToastService)
 
 app.use(PrimeVue, {
   theme: {

@@ -1,6 +1,8 @@
 <template>
   <section id="contact" class="contact-view">
     <div class="contact-container">
+      <Toast />
+
       <h1 class="contact-heading">CONTACT <span class="glow">ME</span></h1>
 
       <!-- Icon Grid Row -->
@@ -15,7 +17,7 @@
             variant="outlined"
             size="large"
             severity="contrast"
-          ></Button>
+          />
           <Button
             :class="'glow-icon'"
             icon="pi pi-github"
@@ -25,7 +27,7 @@
             variant="outlined"
             size="large"
             severity="contrast"
-          ></Button>
+          />
           <Button
             :class="'glow-icon'"
             icon="pi pi-linkedin"
@@ -35,7 +37,7 @@
             variant="outlined"
             size="large"
             severity="contrast"
-          ></Button>
+          />
           <Button
             :class="'glow-icon'"
             icon="pi pi-download"
@@ -45,7 +47,7 @@
             variant="outlined"
             size="large"
             severity="contrast"
-          ></Button>
+          />
         </div>
       </div>
 
@@ -67,7 +69,7 @@
               rows="5"
               placeholder="MESSAGE"
               style="width: 600px"
-            ></Textarea>
+            />
           </span>
 
           <AnimatedButton
@@ -89,29 +91,67 @@ import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
 import AnimatedButton from '@/components/AnimatedButton.vue'
 import Button from 'primevue/button'
+import Toast from 'primevue/toast'
+import { useToast } from 'primevue/usetoast'
+import emailjs from '@emailjs/browser'
+
+const toast = useToast()
 
 const form = ref({
   name: '',
   email: '',
   message: '',
 })
+
 const resumeUrl = new URL('@/assets/Resume.pdf', import.meta.url).href
+const loading = ref(false)
+
+// ✅ Pull credentials from .env
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
+const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+
+const submitForm = async () => {
+  if (!form.value.name || !form.value.email || !form.value.message) {
+    toast.add({
+      severity: 'warn',
+      summary: 'Please fill out all fields',
+      life: 3000,
+    })
+    return
+  }
+
+  loading.value = true
+
+  const templateParams = {
+    name: form.value.name,
+    email: form.value.email,
+    message: form.value.message,
+  }
+
+  try {
+    await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
+    toast.add({
+      severity: 'success',
+      summary: 'Message sent successfully!',
+      detail: 'I will get back to you soon.',
+      life: 4000,
+    })
+    form.value = { name: '', email: '', message: '' }
+  } catch (error) {
+    toast.add({
+      severity: 'error',
+      summary: 'Failed to send message',
+      detail: error?.text || 'Please try again later.',
+      life: 4000,
+    })
+  } finally {
+    loading.value = false
+  }
+}
 
 const openLink = (url) => {
   window.open(url, '_blank')
-}
-
-const loading = ref(false)
-
-const submitForm = async () => {
-  if (!form.value.name || !form.value.email || !form.value.message) return
-  loading.value = true
-
-  setTimeout(() => {
-    console.log('Form submitted:', form.value)
-    loading.value = false
-    form.value = { name: '', email: '', message: '' }
-  }, 1500)
 }
 </script>
 
@@ -181,6 +221,7 @@ const submitForm = async () => {
     grid-template-columns: repeat(4, minmax(120px, 1fr));
   }
 }
+
 .glow-icon {
   color: #7df3ff !important;
   filter: drop-shadow(0 0 6px rgba(100, 181, 246, 0.5));

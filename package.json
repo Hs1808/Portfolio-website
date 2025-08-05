@@ -11,6 +11,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@primeuix/themes": "^1.1.1",
     "@primevue/forms": "^4.3.7",
     "clsx": "^2.1.1",

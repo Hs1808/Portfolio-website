@@ -31,17 +31,17 @@
           />
           <Button
             class="glow-icon"
-            v-tooltip.bottom="{ value: 'Skills', showDelay: 700, hideDelay: 300 }"
+            v-tooltip.bottom="{ value: 'Projects', showDelay: 700, hideDelay: 300 }"
             icon="pi pi-briefcase"
             severity="secondary"
             size="medium"
             text
-            @click="scrollTo('portfolio')"
+            @click="scrollTo('projects')"
             aria-label="Portfolio"
           />
           <Button
             class="glow-icon"
-            v-tooltip.bottom="{ value: 'Projects', showDelay: 700, hideDelay: 300 }"
+            v-tooltip.bottom="{ value: 'Contacts', showDelay: 700, hideDelay: 300 }"
             icon="pi pi-envelope"
             severity="secondary"
             size="medium"

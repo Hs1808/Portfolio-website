@@ -69,7 +69,7 @@ onMounted(() => {
         if (typedOutput.value && !typedInstance) {
           typedInstance = new Typed(typedOutput.value, {
             strings: [contentString],
-            typeSpeed: 5,
+            typeSpeed: 2,
             showCursor: false,
             smartBackspace: false,
           })
@@ -103,7 +103,7 @@ onMounted(() => {
 
 .about-content {
   position: absolute;
-  top: 53%;
+  top: 52%;
   left: 2.5%;
   transform: translateY(-50%);
   max-width: 550px;
@@ -118,7 +118,7 @@ onMounted(() => {
 
 .about-title {
   font-family: 'orbitron', sans-serif;
-  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-size: clamp(1.5rem, 4vw, 3rem);
   color: var(--primary-color);
   margin: 0 0 10px 0;
   font-weight: 600;
@@ -195,7 +195,7 @@ onMounted(() => {
   }
   .about-title {
     font-family: 'orbitron', sans-serif;
-    font-size: clamp(2rem, 4vw, 2rem);
+    font-size: clamp(1.5rem, 4vw, 2rem);
     color: var(--primary-color);
     margin: 10rem 0 10px 0;
     font-weight: 600;

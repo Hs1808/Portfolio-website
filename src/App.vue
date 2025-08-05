@@ -19,6 +19,12 @@
         <section id="about">
           <AboutView />
         </section>
+        <section id="projects">
+          <ProjectView />
+        </section>
+        <section id="contact">
+          <ContactView />
+        </section>
       </main>
     </div>
   </div>
@@ -31,6 +37,9 @@ import HomeView from './views/HomeView.vue'
 import AboutView from './views/AboutView.vue'
 import TransitionIntro from './components/TransitionIntro.vue'
 import GridBackground from '@/components/GridBackground.vue'
+import ProjectView from './views/ProjectView.vue'
+import ContactView from './views/ContactView.vue'
+
 const showGrid = ref(true)
 
 const showIntro = ref(true)
@@ -57,7 +66,7 @@ body,
 html {
   margin: 0;
   padding: 0;
-  font-family: 'YourCustomFont', sans-serif;
+  font-family: sans-serif;
   scroll-behavior: smooth;
   height: 100%;
 }

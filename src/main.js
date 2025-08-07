@@ -3,12 +3,15 @@ import App from './App.vue'
 import PrimeVue from 'primevue/config'
 import Tooltip from 'primevue/tooltip'
 import AnimateOnScroll from 'primevue/animateonscroll'
+import { createHead } from '@vueuse/head'
 
 // Theme and styles
 import Nora from '@primeuix/themes/nora'
 import ToastService from 'primevue/toastservice'
 
 const app = createApp(App)
+const head = createHead()
+app.use(head)
 app.use(ToastService)
 
 app.use(PrimeVue, {

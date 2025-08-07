@@ -39,6 +39,64 @@ import TransitionIntro from './components/TransitionIntro.vue'
 import GridBackground from '@/components/GridBackground.vue'
 import ProjectView from './views/ProjectView.vue'
 import ContactView from './views/ContactView.vue'
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Harshdeep Singh | AI-First Full Stack Developer | DevVizr Creator',
+  htmlAttrs: {
+    lang: 'en',
+  },
+  link: [{ rel: 'canonical', href: 'https://harshdeepstudio.com/' }],
+  meta: [
+    // Primary Meta Tags
+    {
+      name: 'description',
+      content:
+        'Official portfolio of Harshdeep Singh — an AI-first full-stack developer building futuristic, user-focused web applications with Vue.js, PrimeVue, Flask, and MongoDB. Creator of DevVizr — a GitHub and LeetCode insights dashboard.',
+    },
+    {
+      name: 'keywords',
+      content:
+        'Harshdeep Singh, AI developer, full-stack developer, Vue.js portfolio, DevVizr, GitHub analytics dashboard, MongoDB developer, Flask backend, sci-fi UI, frontend developer, Vue transitions, software engineer, Canadian developer portfolio',
+    },
+    { name: 'author', content: 'Harshdeep Singh' },
+    { name: 'robots', content: 'index, follow' },
+    { httpEquiv: 'Content-Type', content: 'text/html; charset=UTF-8' },
+    { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+
+    // Open Graph / Facebook
+    { property: 'og:title', content: 'Harshdeep Singh | AI Developer Portfolio' },
+    {
+      property: 'og:description',
+      content:
+        'Explore Harshdeep Singh’s AI-first development portfolio featuring futuristic projects like DevVizr, built with Vue.js and Flask.',
+    },
+    { property: 'og:image', content: 'https://harshdeepstudio.com/images/preview.png' }, // Replace with actual path
+    { property: 'og:url', content: 'https://harshdeepstudio.com/' },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:locale', content: 'en_CA' },
+    { property: 'og:site_name', content: 'Harshdeep Singh Portfolio' },
+
+    // Twitter Cards
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: 'Harshdeep Singh | AI-First Full Stack Developer' },
+    {
+      name: 'twitter:description',
+      content:
+        'Check out Harshdeep Singh’s work on DevVizr and other AI-powered full stack projects.',
+    },
+    { name: 'twitter:image', content: 'https://harshdeepstudio.com/images/preview.png' },
+    { name: 'twitter:site', content: '@_sardarG_' }, // Optional if you have a Twitter account
+    { name: 'twitter:creator', content: '@_sardarG_' },
+
+    // Mobile/Web App Settings
+    { name: 'theme-color', content: '#0a192f' },
+    { name: 'mobile-web-app-capable', content: 'yes' },
+    { name: 'apple-mobile-web-app-capable', content: 'yes' },
+    { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
+    { name: 'apple-mobile-web-app-title', content: 'Harshdeep Portfolio' },
+  ],
+})
 
 const showGrid = ref(true)
 

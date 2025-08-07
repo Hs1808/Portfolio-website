@@ -8,7 +8,10 @@ import { createHead } from '@vueuse/head'
 // Theme and styles
 import Nora from '@primeuix/themes/nora'
 import ToastService from 'primevue/toastservice'
+import { inject } from '@vercel/analytics'
 
+// Inject Vercel Analytics
+inject()
 const app = createApp(App)
 const head = createHead()
 app.use(head)
